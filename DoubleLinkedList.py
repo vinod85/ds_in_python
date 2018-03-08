@@ -1,5 +1,6 @@
 #!/bin/python
 
+# Node of a Doubly Linked List
 class Node:
     """ """
     def __init__(self, data):
@@ -7,6 +8,7 @@ class Node:
         self._next = None
         self._prev = None
 
+    # getters and setters
     @property
     def data(self):
         return self._data
@@ -55,10 +57,7 @@ class Node:
     def __str__(self):
        return str(self._data)
 
-    # def __del__(self):
-    #   print("del")
-
-class LinkedList(object):
+class DoubleLinkedList(object):
     def __init__(self):
         self.head = None
         self.tail = None
@@ -90,6 +89,10 @@ class LinkedList(object):
              
         print(nodeList)
 
+    def clear(self):
+        self.head = None
+        self.tail = None
+
     def insertBegining(self, newNode):
         if self.is_empty():
             self.head = newNode
@@ -112,8 +115,35 @@ class LinkedList(object):
             lastNode.next = newNode
             newNode.prev = lastNode
 
+    # Insert a Node at the given position
+    def insertPosition(self, newNode, pos):
+        if pos == 0:
+            self.insertBegining(newNode)
+        else:
+            currNode = self.head
+
+            i = 0
+            while i < pos:
+                if not currNode.has_next():
+                    break
+                currNode = currNode.next
+                i = i + 1
+
+            if i == pos:
+                newNode.next = currNode
+                newNode.prev = currNode.prev
+            
+                currNode.prev.next = newNode
+                currNode.prev = newNode
+            elif i == pos - 1:
+                newNode.prev = currNode
+                currNode.next = newNode
+                self.tail = newNode
+            else:
+                print("position > lenght of the list")
+
 if __name__ == '__main__':
-    dl = LinkedList()
+    dl = DoubleLinkedList()
     dl.insertBegining(Node(1))
     dl.insertBegining(Node(2))
     dl.insertBegining(Node(3))
@@ -125,6 +155,16 @@ if __name__ == '__main__':
     dl.insertLast(Node(12))
     dl.insertLast(Node(13))
     dl.insertLast(Node(14))
+    print(dl)
+    dl.printReverse()
 
+    dl.clear()
+
+    dl.insertPosition(Node(1), 0)
+    dl.insertPosition(Node(2), 0)
+    dl.insertPosition(Node(3), 0)
+    dl.insertPosition(Node(4), 0)
+    print(dl)
+    dl.insertPosition(Node(5), 4)
     print(dl)
     dl.printReverse()
