@@ -95,7 +95,7 @@ class DoubleLinkedList(object):
         self.tail = None
 
     # Find a given node by moving in fwd direction
-    def findNodeFwd(self, val):
+    def findNodeByValueFwd(self, val):
         currNode = self.head
         while currNode:
             if val == currNode.data:
@@ -105,11 +105,23 @@ class DoubleLinkedList(object):
         return currNode
 
     # Find a given node by moving in reverse direction
-    def findNodeRev(self, val):
+    def findNodeByValueRev(self, val):
         currNode = self.tail
         while currNode:
             if val == currNode.data:
                 break
+            currNode = currNode.prev
+
+        return currNode
+
+    # Find a given node by moving in reverse direction
+    def findNodeByPosRev(self, pos):
+        x = 0
+        currNode = self.tail
+        while pos != x:
+            if not currNode:
+                break
+            x = x + 1
             currNode = currNode.prev
 
         return currNode
@@ -163,6 +175,43 @@ class DoubleLinkedList(object):
             else:
                 print("position > lenght of the list")
 
+    # Insert a Node at the given position from back
+    def insertPositionRev(self, newNode, pos):
+        if pos == 0:
+            self.insertLast(newNode)
+        else:
+            tmpNode = self.findNodeByPosRev(pos)
+            if tmpNode is None:
+                firstNode = self.head
+
+                self.head = newNode
+                newNode.next = firstNode
+                firstNode.prev = newNode
+            elif tmpNode.next is None and tmpNode.prev is None:
+                self.head = None
+                self.tail = None
+            # inserting at last
+            elif tmpNode.next is None:
+                 lastNode = self.tail
+
+                 self.tail = newNode
+                 lastNode.next = newNode
+                 newNode.prev = lastNode
+            # insert begining
+            elif tmpNode.prev is None:
+                print(tmpNode)
+                firstNode = self.head
+
+                self.head = newNode
+                newNode.next = firstNode
+                firstNode.prev = newNode
+            else:
+                newNode.prev = tmpNode
+                newNode.next = tmpNode.next
+
+                tmpNode.next.prev = newNode
+                tmpNode.next = newNode
+
     def deleteFirst(self):
         if self.is_empty():
             print("List is empty")
@@ -190,7 +239,7 @@ class DoubleLinkedList(object):
         if self.is_empty():
             print("List is empty")
         else:
-            tmpNode = self.findNodeFwd(val)
+            tmpNode = self.findNodeByValueFwd(val)
 
             if tmpNode is None:
                 print("Value not found")
@@ -216,7 +265,7 @@ class DoubleLinkedList(object):
         if self.is_empty():
             print("List is empty")
         else:
-            tmpNode = self.findNodeRev(val)
+            tmpNode = self.findNodeByValueRev(val)
 
             if tmpNode is None:
                 print("Value not found")
@@ -239,75 +288,87 @@ class DoubleLinkedList(object):
 
 if __name__ == '__main__':
     dl = DoubleLinkedList()
-    dl.insertBegining(Node(1))
-    dl.insertBegining(Node(2))
-    dl.insertBegining(Node(3))
-    dl.insertBegining(Node(4))
-    print(dl)
-    dl.printReverse()
 
-    dl.insertLast(Node(11))
-    dl.insertLast(Node(12))
-    dl.insertLast(Node(13))
-    dl.insertLast(Node(14))
-    print(dl)
-    dl.printReverse()
+    # dl.insertBegining(Node(1))
+    # dl.insertBegining(Node(2))
+    # dl.insertBegining(Node(3))
+    # dl.insertBegining(Node(4))
+    # print(dl)
+    # dl.printReverse()
 
-    dl.clear()
+    # dl.insertLast(Node(11))
+    # dl.insertLast(Node(12))
+    # dl.insertLast(Node(13))
+    # dl.insertLast(Node(14))
+    # print(dl)
+    # dl.printReverse()
 
-    dl.insertPositionFwd(Node(1), 0)
-    dl.insertPositionFwd(Node(2), 0)
-    dl.insertPositionFwd(Node(3), 0)
-    dl.insertPositionFwd(Node(4), 0)
-    print(dl)
-    dl.insertPositionFwd(Node(5), 4)
-    print(dl)
-    dl.printReverse()
+    # dl.clear()
 
-    dl.clear()
+    # dl.insertPositionFwd(Node(1), 0)
+    # dl.insertPositionFwd(Node(2), 0)
+    # dl.insertPositionFwd(Node(3), 0)
+    # dl.insertPositionFwd(Node(4), 0)
+    # print(dl)
+    # dl.insertPositionFwd(Node(5), 4)
+    # print(dl)
+    # dl.printReverse()
 
-    dl.insertPositionFwd(Node(1), 0)
-    dl.insertPositionFwd(Node(2), 0)
-    dl.insertPositionFwd(Node(3), 0)
-    print(dl)
-    dl.deleteFirst()
-    print(dl)
-    dl.printReverse()
+    # dl.clear()
 
-    dl.clear()
+    # dl.insertPositionFwd(Node(1), 0)
+    # dl.insertPositionFwd(Node(2), 0)
+    # dl.insertPositionFwd(Node(3), 0)
+    # print(dl)
+    # dl.deleteFirst()
+    # print(dl)
+    # dl.printReverse()
+
+    # dl.clear()
     
-    dl.insertPositionFwd(Node(1), 0)
-    dl.insertPositionFwd(Node(2), 0)
-    dl.insertPositionFwd(Node(3), 0)
-    print(dl)
-    dl.deleteLast()
-    print(dl)
-    dl.printReverse()
+    # dl.insertPositionFwd(Node(1), 0)
+    # dl.insertPositionFwd(Node(2), 0)
+    # dl.insertPositionFwd(Node(3), 0)
+    # print(dl)
+    # dl.deleteLast()
+    # print(dl)
+    # dl.printReverse()
+
+    # dl.clear()
+    
+    # dl.insertLast(Node(1))
+    # dl.insertLast(Node(2))
+    # dl.insertLast(Node(3))
+    # dl.insertLast(Node(4))
+    # print(dl)
+    # dl.deleteValueFwd(1)
+    # dl.deleteValueFwd(2)
+    # dl.deleteValueFwd(3)
+    # dl.deleteValueFwd(4)
+    # print(dl)
+    # dl.printReverse()
+
+    # dl.clear()
+    
+    # dl.insertLast(Node(1))
+    # dl.insertLast(Node(2))
+    # dl.insertLast(Node(3))
+    # dl.insertLast(Node(4))
+    # print(dl)
+    # dl.deleteValueRev(1)
+    # dl.deleteValueRev(2)
+    # dl.deleteValueRev(3)
+    # dl.deleteValueRev(4)
+    # print(dl)
+    # dl.printReverse()
 
     dl.clear()
     
     dl.insertLast(Node(1))
     dl.insertLast(Node(2))
-    dl.insertLast(Node(3))
-    dl.insertLast(Node(4))
+    # dl.insertLast(Node(3))
+    # dl.insertLast(Node(4))
     print(dl)
-    dl.deleteValueFwd(1)
-    dl.deleteValueFwd(2)
-    dl.deleteValueFwd(3)
-    dl.deleteValueFwd(4)
-    print(dl)
-    dl.printReverse()
-
-    dl.clear()
-    
-    dl.insertLast(Node(1))
-    dl.insertLast(Node(2))
-    dl.insertLast(Node(3))
-    dl.insertLast(Node(4))
-    print(dl)
-    dl.deleteValueRev(1)
-    dl.deleteValueRev(2)
-    dl.deleteValueRev(3)
-    dl.deleteValueRev(4)
+    dl.insertPositionRev(Node(5), 1)
     print(dl)
     dl.printReverse()
