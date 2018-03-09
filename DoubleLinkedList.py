@@ -154,6 +154,16 @@ class DoubleLinkedList(object):
                 self.head = None
                 self.tail = None
 
+    def deleteLast(self):
+        if self.is_empty():
+            print("List is empty")
+        else:
+            if self.tail.has_prev():
+                self.tail = self.tail.prev
+                self.tail.next = None
+            else:
+                self.head = None
+                self.tail = None
 
 if __name__ == '__main__':
     dl = DoubleLinkedList()
@@ -183,10 +193,22 @@ if __name__ == '__main__':
     dl.printReverse()
 
     dl.clear()
+
     dl.insertPosition(Node(1), 0)
     dl.insertPosition(Node(2), 0)
     dl.insertPosition(Node(3), 0)
     print(dl)
     dl.deleteFirst()
+    print(dl)
+    dl.printReverse()
+
+
+    dl.clear()
+    
+    dl.insertPosition(Node(1), 0)
+    dl.insertPosition(Node(2), 0)
+    dl.insertPosition(Node(3), 0)
+    print(dl)
+    dl.deleteLast()
     print(dl)
     dl.printReverse()
