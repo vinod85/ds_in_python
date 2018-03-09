@@ -78,8 +78,9 @@ class DoubleLinkedList(object):
         return str(nodeList)
 
     def printReverse(self):
-        if self.tail == None:
-            return "[]"
+        if self.tail is None:
+            print("[]")
+            return
 
         nodeList = []
         currNode = self.tail
@@ -142,6 +143,18 @@ class DoubleLinkedList(object):
             else:
                 print("position > lenght of the list")
 
+    def deleteFirst(self):
+        if self.is_empty():
+            print("List is empty")
+        else:
+            if self.head.has_next():
+                self.head = self.head.next
+                self.head.prev = None
+            else:
+                self.head = None
+                self.tail = None
+
+
 if __name__ == '__main__':
     dl = DoubleLinkedList()
     dl.insertBegining(Node(1))
@@ -166,5 +179,14 @@ if __name__ == '__main__':
     dl.insertPosition(Node(4), 0)
     print(dl)
     dl.insertPosition(Node(5), 4)
+    print(dl)
+    dl.printReverse()
+
+    dl.clear()
+    dl.insertPosition(Node(1), 0)
+    dl.insertPosition(Node(2), 0)
+    dl.insertPosition(Node(3), 0)
+    print(dl)
+    dl.deleteFirst()
     print(dl)
     dl.printReverse()
