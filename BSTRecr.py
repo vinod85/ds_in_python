@@ -36,10 +36,10 @@ class BST(object):
         return root
 
     def _find_smallest(self, node):
-        while node.left:
-            self._find_smallest(node.left)
-
-        return node
+        if node.left:
+            return self._find_smallest(node.left)
+        else:
+            return node
 
     def _find_node(self, root, data):
         if not root:
