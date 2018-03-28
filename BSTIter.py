@@ -23,7 +23,7 @@ class BST(object):
             return []
         return self.makeList(aNode.left) + [aNode.data] + self.makeList(aNode.right)
 
-    def _insert_itr(self, root, node):
+    def _insert(self, root, node):
         if root is None:
             self.root = node
             return
@@ -48,19 +48,19 @@ class BST(object):
             ret.append(node.data)
             self._inorder(node.right, ret)
 
-    def insertItr(self, newNode):
-        self._insert_itr(self.root, newNode)
+    def insert(self, newNode):
+        self._insert(self.root, newNode)
 
-    def deleteItr(self, data):
-        self._delete_itr(self.root, data)
+    def delete(self, data):
+        self._delete(self.root, data)
 
-    def _find_smallest_itr(self, node):
+    def _find_smallest(self, node):
         while node.left:
             node = node.left
 
         return node
 
-    def _find_node_itr(self, root, data):
+    def _find_node(self, root, data):
         if root is None:
             return None
 
@@ -77,7 +77,7 @@ class BST(object):
 
     # Find the parent node
     # arguments: root, node
-    def _find_parent_itr(self, root, node):
+    def _find_parent(self, root, node):
         if root is None:
             return None
 
@@ -92,18 +92,18 @@ class BST(object):
 
         return None
 
-    def _delete_itr(self, root, data):
+    def _delete(self, root, data):
         if root is None:
             return
 
-        node = self._find_node_itr(root, data)
+        node = self._find_node(root, data)
 
         # if it is the root node
         if node is root:
             self.root = None
             return
 
-        parent = self._find_parent_itr(root, node)
+        parent = self._find_parent(root, node)
         isLeft = True if parent.left is Node else False
         # node is a leaf
         if node.left is None and node.right is None:
@@ -123,10 +123,10 @@ class BST(object):
                 parent.right = node.left
         else:
             # node has both right and left
-            smallest = self._find_smallest_itr(node.right)
+            smallest = self._find_smallest(node.right)
             # TODO: replace the node itself, node just data
             node.data = smallest.data
-            self._delete_itr(node.right, smallest)
+            self._delete(node.right, smallest)
 
     def inorder(self):
         ret = []
@@ -137,9 +137,9 @@ b = BST()
 
 entries = [5, 3, 2, 1, 6, 7, 8, 9]
 for x in entries:
-    b.insertItr(Node(x))
+    b.insert(Node(x))
 
-b.deleteItr(6)
+b.delete(6)
 
 l = b.inorder()
 print(l)
