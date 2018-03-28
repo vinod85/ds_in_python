@@ -36,6 +36,8 @@ class BST(object):
                     break
 
                 root = root.left
+            else:
+                break
 
     def _inorder(self, root):
         stack = []
@@ -52,12 +54,6 @@ class BST(object):
                 else:
                     break
         return ret
-
-    def insert(self, newNode):
-        self._insert(self.root, newNode)
-
-    def delete(self, data):
-        self._delete(self.root, data)
 
     def _find_smallest(self, node):
         while node.left:
@@ -83,7 +79,10 @@ class BST(object):
     # Find the parent node
     # arguments: root, node
     def _find_parent(self, root, node):
-        if root is None:
+        if root is None or node is None:
+            return None
+
+        if root == node:
             return None
 
         while root:
@@ -102,14 +101,13 @@ class BST(object):
             return
 
         node = self._find_node(root, data)
-
-        # if it is the root node
-        if node is root:
-            self.root = None
+        if not node:
             return
 
         parent = self._find_parent(root, node)
-        isLeft = True if parent.left is Node else False
+        if parent is not None:
+            isLeft = True if parent.left is node else False
+
         # node is a leaf
         if node.left is None and node.right is None:
             if isLeft:
@@ -130,19 +128,28 @@ class BST(object):
             # node has both right and left
             smallest = self._find_smallest(node.right)
             # TODO: replace the node itself, node just data
-            node.data = smallest.data
-            self._delete(node.right, smallest)
+            tmp = smallest.data
+            # print(node.data, smallest.data)
+            self._delete(node, smallest.data)
+            node.data = tmp
 
     def inorder(self):
         return self._inorder(self.root)
 
+    def insert(self, node):
+        self._insert(self.root, node)
+
+    def delete(self, data):
+        self._delete(self.root, data)
+
+
 b = BST()
 
-entries = [5, 3, 2, 1, 6, 7, 8, 9]
+entries = [52, 50, 20, 80, 34, 2, 16, 98, 56, 46, 56, 98]
 for x in entries:
     b.insert(Node(x))
 
-b.delete(6)
+b.delete(52)
 
 l = b.inorder()
 print(l)
