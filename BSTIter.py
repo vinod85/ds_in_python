@@ -23,17 +23,6 @@ class BST(object):
             return []
         return self.makeList(aNode.left) + [aNode.data] + self.makeList(aNode.right)
 
-    def _insert_rec(self, root, node):
-        if root is None:
-            return node
-
-        if root.data < node.data:
-            root.right = self._insert_rec(root.right, node)
-        elif root.data > node.data:
-            root.left = self._insert_rec(root.left, node)
-
-        return root
-
     def _insert_itr(self, root, node):
         if root is None:
             self.root = node
@@ -59,38 +48,17 @@ class BST(object):
             ret.append(node.data)
             self._inorder(node.right, ret)
 
-    def insertRec(self, newNode):
-        self.root = self._insert_rec(self.root, newNode)
-
     def insertItr(self, newNode):
         self._insert_itr(self.root, newNode)
 
     def deleteItr(self, data):
         self._delete_itr(self.root, data)
 
-    def _find_smallest_rec(self, node):
-        while node.left:
-            self._find_smallest_rec(node.left)
-
-        return node
-
     def _find_smallest_itr(self, node):
         while node.left:
             node = node.left
 
         return node
-
-    def _find_parent_rec(self, root, node):
-        if root is None:
-            return None
-
-        if root.left == node or root.right == node:
-            return root
-
-        if node.data < root.data:
-            return self._find_parent(root.left, node)
-        elif node.data > root.data:
-            return self._find_parent(root.right, node)
 
     def _find_node_itr(self, root, data):
         if root is None:
