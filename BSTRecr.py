@@ -70,38 +70,28 @@ class BST(object):
         if root is None:
             return
 
-        node = self._find_node(root, data)
-        if not node:
-            return
-
-        parent = self._find_parent(root, node)
-        if parent is not None:
-            isLeft = True if parent.left is node else False
-
-        # node is a leaf
-        if node.left is None and node.right is None:
-            if isLeft:
-                parent.left = None
+        if data == root.data:
+            if not root.left and not root.right:
+                return None
+            elif not root.left and root.right:
+                return root.right
+            elif root.left and not root.right:
+                return root.left
             else:
-                parent.right = None
-        elif node.left is None and node.right:
-            if isLeft:
-                parent.left = node.right
-            else:
-                parent.right = node.right
-        elif node.left and node.right is None:
-            if isLeft:
-                parent.left = node.left
-            else:
-                parent.right = node.left
+                # node has both right and left
+                smallest = self._find_smallest(root.right)
+                # TODO: replace the node itself, node just data
+                root.data = smallest.data
+                # print(node.data, smallest.data)
+                root.right = self._delete(root.right, smallest.data)
+                return root
         else:
-            # node has both right and left
-            smallest = self._find_smallest(node.right)
-            # TODO: replace the node itself, node just data
-            tmp = smallest.data
-            # print(node.data, smallest.data)
-            self._delete(node, smallest.data)
-            node.data = tmp
+            if data > root.data:
+                root.right = self._delete(root.right, data)
+            elif data < root.data:
+                root.left = self._delete(root.left, data)
+
+            return root
 
     def insert(self, newNode):
         self.root = self._insert(self.root, newNode)
@@ -122,3 +112,4 @@ b.delete(5)
 
 l = b.inorder()
 print(l)
+
