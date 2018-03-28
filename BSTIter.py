@@ -18,11 +18,6 @@ class BST(object):
         super(BST, self).__init__()
         self.root = None
 
-    def makeList(self, aNode):
-        if aNode is None:
-            return []
-        return self.makeList(aNode.left) + [aNode.data] + self.makeList(aNode.right)
-
     def _insert(self, root, node):
         if root is None:
             self.root = node
