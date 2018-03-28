@@ -42,11 +42,21 @@ class BST(object):
 
                 root = root.left
 
-    def _inorder(self, node, ret):
-        if node:
-            self._inorder(node.left, ret)
-            ret.append(node.data)
-            self._inorder(node.right, ret)
+    def _inorder(self, root):
+        stack = []
+        ret = []
+        while True:
+            if root is not None:
+                stack.append(root)
+                root = root.left
+            else:
+                if stack:
+                    root = stack.pop()
+                    ret += [root.data]
+                    root = root.right
+                else:
+                    break
+        return ret
 
     def insert(self, newNode):
         self._insert(self.root, newNode)
@@ -129,9 +139,7 @@ class BST(object):
             self._delete(node.right, smallest)
 
     def inorder(self):
-        ret = []
-        self._inorder(self.root, ret)
-        return ret
+        return self._inorder(self.root)
 
 b = BST()
 
