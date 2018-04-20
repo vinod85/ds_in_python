@@ -24,6 +24,18 @@ class BST(object):
 
         return self._inorder(root.left) + [root.data] + self._inorder(root.right)
 
+    def __preorder(self, root):
+        if root is None:
+            return []
+
+        return [root.data] + self.__preorder(root.left)  + self.__preorder(root.right)
+
+    def __postorder(self, root):
+        if root is None:
+            return []
+
+        return self.__postorder(root.left) + self.__postorder(root.right) + [root.data]
+
     def _insert(self, root, node):
         if root is None:
             return node
@@ -93,6 +105,24 @@ class BST(object):
 
             return root
 
+    def _find_largest(self, root):
+        if root.right:
+            return self._find_largest(root.right)
+        else:
+            return root
+
+    def _second_largest(self, root):
+        if not root:
+            return None
+
+        if root.right is None:
+            return self._find_largest(root.left)
+        else:
+            return self._second_largest(root.right)
+
+    def second_largest(self):
+        return self._second_largest(self.root)
+
     def insert(self, newNode):
         self.root = self._insert(self.root, newNode)
 
@@ -102,14 +132,24 @@ class BST(object):
     def inorder(self):
         return self._inorder(self.root)
 
+    def preorder(self):
+        return self.__preorder(self.root)
+
+    def postorder(self):
+        return self.__postorder(self.root)
+
 b = BST()
 
-entries = [5, 3, 2, 1, 6, 7, 8, 9]
+entries = [100, 50, 150, 25, 75, 15, 150, 125, 175, 115, 135]
 for x in entries:
     b.insert(Node(x))
 
-b.delete(5)
+# print(b.second_largest())
 
 l = b.inorder()
+print(l)
+l = b.preorder()
+print(l)
+l = b.postorder()
 print(l)
 
